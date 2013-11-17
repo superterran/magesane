@@ -1,8 +1,57 @@
-CREATE DATABASE 'whatever' where
-	bullshit
-	bullshit
-	horesheit
-;
+#! /usr/bin/env python
 
-INSERT INTO killme set('data' blah bhash blash
-INSERT INTO keepme set('data' blah bhash blash
+#options
+
+ignore_statements = ['UPDATE', 'INSERT INTO']
+ignore_statement_blacklist = [
+    'log_customer',
+    'log_quote',
+    'log_summary',
+    'log_summary_type',
+    'log_url',
+    'log_url_info',
+    'log_visitor',
+    'log_visitor_info',
+    'sales_flat_invoice',
+    'sales_flat_creditmemo',
+    'sales_flat_',
+    'sales_order',
+    'sales_payment_transaction',
+    'sales_recurring_profile',
+    'sales_shipping_aggregated',
+    'customer_address_entity_',
+    'customer_entity'
+]
+
+ignore_entirely_blacklist = [
+    '/*!50013 DEFINER'
+]
+
+addins = [
+    'UPDATE customer_entity SET email = CONCAT (MD5(email), "@", "example.com");',
+    'UPDATE sales_flat_order SET customer_email = CONCAT (SUBSTR(MD5(customer_email), 6), "@", "example.com"), customer_firstname = MD5(customer_firstname), customer_lastname = MD5(customer_lastname);',
+    'UPDATE sales_flat_order_address SET email = CONCAT (SUBSTR(MD5(email), 6), "@", "example.com"), firstname = MD5(firstname), lastname = MD5(lastname);,'
+    'UPDATE sales_flat_quote SET customer_email = CONCAT (SUBSTR(MD5(customer_email), 6), "@", "example.com"), customer_firstname = MD5(customer_firstname), customer_lastname = MD5(customer_lastname);',
+    'UPDATE sales_flat_quote_address SET email = CONCAT (SUBSTR(MD5(email), 6), "@", "example.com"), firstname = MD5(firstname), lastname = MD5(lastname),  firstname = md5(firstname);'
+]
+
+
+# we want to rebuild the file line per line, leaving out lines with blacklisted words or phrases like 'insert' and '
+# log_table'. This way, the resulting dump will only have the data we really need to develop, instead of everything
+# in the world. There's truncate scripts floating around, but that takes a ton of time to run and blows up disk space
+
+import sys
+
+if sys.stdin.isatty():
+    #raw = open(sys.argv[1], 'r').read()
+    with open(sys.argv[1]) as fileobject:
+        for line in fileobject:
+            if not [i for i, x in enumerate(ignore_entirely_blacklist) if x in line[0:20]]:
+                if not [i for i, x in enumerate(ignore_statements) if x in line[0:20]]:
+                    print(line)
+                else:
+                    if not [i for i, x in enumerate(ignore_statement_blacklist) if x in line[0:40]]:
+                        print(line)
+#else:
+#    raw = sys.stdin.read()
+
