@@ -20,7 +20,7 @@ Comparison
     Full DB dumps
     -------------
 
-    Popular Client Involving Phone Cases:
+    Popular Client Involving Phone Cases
         Original: 4.8GB
         Sanitized: 1.6GB //no customer or log data
 
