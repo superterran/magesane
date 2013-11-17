@@ -21,12 +21,12 @@ Comparison
     -------------
 
     Popular Client Involving Phone Cases:
-        Original: ~4.8GB
-        Sanitized: ~1.6GB //no customer or log data
+        Original: 4.8GB
+        Sanitized: 1.6GB //no customer or log data
 
     Popular Client Involving bags with awesome patterns:
-        Original: ~280MB
-        Sanitized: ~150MB //no customer or log data
+        Original: 297MB
+        Sanitized: 149MB //no customer or log data
 
 Installation
 ------------

@@ -4,6 +4,7 @@
 
 ignore_statements = ['UPDATE', 'INSERT INTO']
 ignore_statement_blacklist = [
+    'killme',
     'log_customer',
     'log_quote',
     'log_summary',
@@ -43,15 +44,14 @@ addins = [
 import sys
 
 if sys.stdin.isatty():
-    #raw = open(sys.argv[1], 'r').read()
-    with open(sys.argv[1]) as fileobject:
-        for line in fileobject:
-            if not [i for i, x in enumerate(ignore_entirely_blacklist) if x in line[0:20]]:
-                if not [i for i, x in enumerate(ignore_statements) if x in line[0:20]]:
-                    print(line)
-                else:
-                    if not [i for i, x in enumerate(ignore_statement_blacklist) if x in line[0:40]]:
-                        print(line)
-#else:
-#    raw = sys.stdin.read()
+    fileobject = open(sys.argv[1])
+else:
+    fileobject = sys.stdin.readlines()
 
+for line in fileobject:
+    if not [i for i, x in enumerate(ignore_entirely_blacklist) if x in line[0:20]]:
+        if not [i for i, x in enumerate(ignore_statements) if x in line[0:20]]:
+            print(line)
+        else:
+            if not [i for i, x in enumerate(ignore_statement_blacklist) if x in line[0:40]]:
+                print(line)
