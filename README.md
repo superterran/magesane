@@ -36,3 +36,4 @@ Installation
 Requirements
 ------------
     Python 2.6+ (tested)
+    python2-configglue (arch) for ConfigParser
