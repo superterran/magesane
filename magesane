@@ -1,29 +1,93 @@
 #! /usr/bin/env python
 # MageSane is a sql dump sanitizer for Magento aimed to speed up database imports and reduce filesystem footprints
-#
-# we want to rebuild the file line per line, leaving out lines with blacklisted words or phrases like 'insert' and '
-# log_table'. This way, the resulting dump will only have the data we really need to develop, instead of everything
-# in the world. There's truncate scripts floating around, but that takes a ton of time to run and blows up disk space
 
+from optparse import OptionParser
 import sys
 import configparser
+import os
 
+# provide some command line parameters to make life easier in the wild
+parser = OptionParser()
+parser.add_option("-r", "--read", dest="read",
+                  help="which file to read, can also pass as first argument or as pipe", metavar="INPUTFILE")
+
+parser.add_option("-o", "--output", dest="output",
+                  help="where to save, by default this outputs to buffer", metavar="OUTPUTFILE")
+
+parser.add_option("-i", "--ignore", dest="ignore",
+                  help="pass in custom ignore list, comma seperated. Use profiles i.e. logs,sales,customer ", metavar="ignoreprofiles")
+
+parser.add_option("-a", "--addin", dest="addins",
+                  help="adds custom statements to end of dump, comma seperated defined in ini ", metavar="addins")
+
+(options, args) = parser.parse_args()
+
+# all the comparison stuff is stored in the magesane.ini file, this will fetch it and put it all together before
+# we try and parse the dump
 config = configparser.ConfigParser()
 config.read('magesane.ini')
-#print(config.sections())
 ignore_statements = config['ignore']['statements'].split(',')
-ignore_statement_blacklist = config['ignore']['blacklist'].split(',')
 ignore_entirely_blacklist = config['ignore']['entirely'].split(',')
+ignore_statement_blacklist = ''
 
-if sys.stdin.isatty():
+if options.ignore is not None:
+    ignore_statement_blacklist_parts = options.ignore.split(',')
+else:
+    ignore_statement_blacklist_parts = config['ignore']['blacklist'].split(',')
+
+for part in ignore_statement_blacklist_parts:
+    ignore_statement_blacklist = ignore_statement_blacklist + config['ignore'][part]
+
+# grab file or stream to parse
+
+if sys.stdin.isatty() and os.path.isfile(sys.argv[1]):
     fileobject = open(sys.argv[1])
 else:
-    fileobject = sys.stdin.readlines()
+    if options.read is not None:
+        if os.path.isfile(options.read):
+            fileobject = open(options.read)
+        else:
+            print(options.read + ' does not exist, aborting')
+            exit()
+    else:
+        fileobject = sys.stdin.readlines()
+
+# handle addins
+
+output_addins = ''
+
+if options.addins is not None:
+    for addin in options.addins.split(','):
+        if addin in config['addins']:
+            output_addins += config['addins'][addin]
+        else:
+            print('Addin ' + addin + ' does not exist, aborting')
+            exit()
+
+# the trick
+
+output = ''
 
 for line in fileobject:
     if not [i for i, x in enumerate(ignore_entirely_blacklist) if x in line[0:20]]:
         if not [i for i, x in enumerate(ignore_statements) if x in line[0:20]]:
-            print(line)
+            if options.output is None:
+                print(line)
+            else:
+                output += line
+
         else:
             if not [i for i, x in enumerate(ignore_statement_blacklist) if x in line[0:40]]:
-                print(line)
+                if options.output is None:
+                    print(line)
+                else:
+                    output += line
+
+
+# in case the output flag is thrown, we'll save everything to the appropriate file
+if options.output is not None:
+    f = open(options.output, 'w')
+    f.write(output + output_addins)
+    f.close()
+else:
+    print(output_addins)
