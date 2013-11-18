@@ -37,7 +37,7 @@ Usage Examples
 Here's a few ways you can use the script, depending on your needs:
 
 * import via mysql client: magesane source.sql | mysql -uroot database
-* import via mysql client, only ignore logs: magesane -i log source.sql| mysql -uroot database
+* import via mysql client, only ignore logs: magesane -i log -r source.sql | mysql -uroot database
 * run file, save new: magesane -r source.sql -o destination.sql
 * run file, save new: magesane source.sql > destination.sql
 * run file, save new: cat source.sql | magesane > destination.sql
