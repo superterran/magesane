@@ -44,17 +44,18 @@ Without providing any real facts, here's an idea of what to expect:
 
 - Popular Client Involving Phone Cases
   - Original: 4.8GB
-  - Sanitized: 1.6GB //no customer or log data
+  - Sanitized: 1.7GB //no customer or log data
 
 - Popular Client Involving bags with awesome patterns:
   - Original: 297MB
   - Sanitized: 149MB //no customer or log data
 
-Installation
-------------
-Mark magesane as executable, and then symlink to a path like /usr/local/bin
-
 Requirements
 ------------
 - Python 2.6+ (tested)
-- python2-configglue (arch) for ConfigParser
+- python2-configglue (arch) or python-configparser (ubuntu) for ConfigParser
+
+Installation
+------------
+- Mark magesane as executable, and then symlink/copy to a path like /usr/local/bin
+- cp/ln -s ./magesame.ini /etc/magesame.ini
