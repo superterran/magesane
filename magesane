@@ -69,10 +69,17 @@ if options.addins is not None:
             print('Addin ' + addin + ' does not exist, aborting')
             exit()
 
-# the trick
+
 
 output = ''
 
+#template top
+if config['template']['top'] is not None:
+    print(config['template']['top'])
+else:
+    output += config['template']['top']
+
+# the trick
 for line in fileobject:
     if not [i for i, x in enumerate(ignore_entirely_blacklist) if x in line[0:20]]:
         if not [i for i, x in enumerate(ignore_statements) if x in line[0:20]]:
@@ -95,3 +102,9 @@ if options.output is not None:
     f.close()
 else:
     print(output_addins)
+
+#template bottom
+if config['template']['bottom'] is not None:
+    print(config['template']['bottom'])
+else:
+    output += config['template']['bottom']
