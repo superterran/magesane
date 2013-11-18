@@ -20,7 +20,7 @@ Usage: magesane [options]
 Options:
   -h, --help            show this help message and exit
   -r INPUTFILE, --read=INPUTFILE
-                        which file to read, can also pass as first argument or
+                          which file to read, can also pass as first argument or
                         as pipe
   -o OUTPUTFILE, --output=OUTPUTFILE
                         where to save, by default this outputs to buffer
