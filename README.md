@@ -5,11 +5,11 @@ superterran@gmail.com
 MageSane is a simple sql dump sanitizer for Magento aimed to speed up database imports and
 reduce filesystem footprints. DB sanitizers floating around are generally a series of update and truncate
 statements fired after a full import operation. This is time consuming and doesn't always release filesystem space
-on many standard mysql setups.
+on standard mysql setups.
 
-Instead, pipe a full db dump through magesane and the file is sanitized before MySQL imports, resulting in a
+Now you pipe a full db dump through magesane and the file is sanitized before MySQL imports, resulting in a
 significantly faster import, smaller overall file size and better database performance. MageSane will also disable
-foreign key constraints, strip out any trigger definers, and provide options for further sanitation like ofuscating
+foreign key constraints, strip out any trigger definers, and provide options for further sanitation like obfuscating
 customer data, or choosing to not import customer/order/catalog data at all.
 
 Usage
