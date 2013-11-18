@@ -1,6 +1,5 @@
 MageSane
 ========
-
 MageSane is a simple sql dump sanitizer for Magento aimed to speed up database imports and
 reduce filesystem footprints. DB sanitizers floating around are generally a series of update and truncate
 statements fired after a full import operation. This is time consuming and doesn't always release filesystem space on standard mysql setups.
@@ -10,7 +9,6 @@ significantly faster import, smaller overall file size and better database perfo
 
 Usage
 -----
-
     usage: magesane [options]
 
     Options:
@@ -30,7 +28,6 @@ Usage
 
 Usage Examples
 --------------
-
 Here's a few ways you can use the script, depending on your needs:
 
 - import via mysql client: magesane source.sql | mysql -uroot database
@@ -41,7 +38,6 @@ Here's a few ways you can use the script, depending on your needs:
 
 Comparison
 ----------
-
 Without providing any real facts, here's an idea of what to expect:
 
 **Full DB dumps**
@@ -54,11 +50,9 @@ Without providing any real facts, here's an idea of what to expect:
   - Original: 297MB
   - Sanitized: 149MB //no customer or log data
 
-
 Installation
 ------------
-
-   Mark magesane as executable, and then symlink to a path like /usr/local/bin
+Mark magesane as executable, and then symlink to a path like /usr/local/bin
 
 Requirements
 ------------
