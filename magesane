@@ -87,12 +87,24 @@ for line in fileobject:
             else:
                 output += line
         else:
-            if not [i for i, x in enumerate(ignore_statement_blacklist.split(',')) if x in line.decode('utf-8')]:
+            thisline = line
+            try:
+                thisline.decode('utf-8')
+            except AttributeError:
+                thisline = line
+            else:
+                thisline.line.decode('utf-8')
+            if not [i for i, x in enumerate(ignore_statement_blacklist.split(',')) if x in thisline]:
                 if options.output is None:
                     print(line)
                 else:
                     output += line
 
+#template bottom
+if config['template']['bottom'] is not None:
+    print(config['template']['bottom'])
+else:
+    output += config['template']['bottom']
 
 # in case the output flag is thrown, we'll save everything to the appropriate file
 if options.output is not None:
@@ -102,8 +114,3 @@ if options.output is not None:
 else:
     print(output_addins)
 
-#template bottom
-if config['template']['bottom'] is not None:
-    print(config['template']['bottom'])
-else:
-    output += config['template']['bottom']
