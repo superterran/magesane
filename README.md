@@ -12,6 +12,37 @@ significantly faster import, smaller overall file size and better database perfo
 foreign key constraints, strip out any trigger definers, and provide options for further sanitation like ofuscating
 customer data, or choosing to not import customer/order/catalog data at all.
 
+Usage
+-----
+
+Usage: magesane [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -r INPUTFILE, --read=INPUTFILE
+                        which file to read, can also pass as first argument or
+                        as pipe
+  -o OUTPUTFILE, --output=OUTPUTFILE
+                        where to save, by default this outputs to buffer
+  -i ignoreprofiles, --ignore=ignoreprofiles
+                        pass in custom ignore list, comma separated. Use
+                        profiles i.e. logs,sales,customer
+  -a addins, --addin=addins
+                        adds custom statements to end of dump, comma separated
+                        defined in ini
+
+Usage Examples
+--------------
+
+    Here's a few ways you can use the script, depending on your needs:
+
+    * import via mysql client: magesane source.sql | mysql -uroot database
+    * import via mysql client, only ignore logs: magesane -i log source.sql| mysql -uroot database
+
+    * run file, save new: magesane -r source.sql -o destination.sql
+    * run file, save new: magesane source.sql > destination.sql
+    * run file, save new: cat source.sql | magesane > destination.sql
+
 Comparison
 ----------
 
@@ -32,7 +63,7 @@ Installation
 ------------
 
     Mark magesane as executable, and then symlink to a path like /usr/local/bin
-
+ex
 Requirements
 ------------
     Python 2.6+ (tested)
