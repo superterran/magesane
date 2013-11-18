@@ -5,9 +5,8 @@ from optparse import OptionParser
 import sys
 import configparser
 import os
-import locator
 
-magesanepath = locator.module_path()
+magesaneinipath='/etc/magesane.ini'
 
 # provide some command line parameters to make life easier in the wild
 parser = OptionParser()
@@ -31,7 +30,7 @@ parser.add_option("-a", "--addin", dest="addins",
 # we try and parse the dump
 config = configparser.ConfigParser()
 
-config.read(magesanepath + '/magesane.ini')
+config.read(magesaneinipath)
 ignore_statements = config['ignore']['statements'].split(',')
 ignore_entirely_blacklist = config['ignore']['entirely'].split(',')
 ignore_statement_blacklist = ''
@@ -88,7 +87,7 @@ for line in fileobject:
             else:
                 output += line
         else:
-            if not [i for i, x in enumerate(ignore_statement_blacklist.split(',')) if x in line]:
+            if not [i for i, x in enumerate(ignore_statement_blacklist.split(',')) if x in line.decode('utf-8')]:
                 if options.output is None:
                     print(line)
                 else:
