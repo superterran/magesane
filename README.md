@@ -17,19 +17,19 @@ Usage
 
 Usage: magesane [options]
 
->    Options:
->      -h, --help            show this help message and exit
->      -r INPUTFILE, --read=INPUTFILE
->                            which file to read, can also pass as first argument or
->                            as pipe
->      -o OUTPUTFILE, --output=OUTPUTFILE
->                            where to save, by default this outputs to buffer
->      -i ignoreprofiles, --ignore=ignoreprofiles
->                            pass in custom ignore list, comma separated. Use
->                            profiles i.e. logs,sales,customer
->      -a addins, --addin=addins
->                            adds custom statements to end of dump, comma separated
->                            defined in ini
+Options:
+    -h, --help            show this help message and exit
+    -r INPUTFILE, --read=INPUTFILE
+                        which file to read, can also pass as first argument or
+                        as pipe
+    -o OUTPUTFILE, --output=OUTPUTFILE
+                        where to save, by default this outputs to buffer
+    -i ignoreprofiles, --ignore=ignoreprofiles
+                        pass in custom ignore list, comma separated. Use
+                        profiles i.e. logs,sales,customer
+    -a addins, --addin=addins
+                        adds custom statements to end of dump, comma separated
+                        defined in ini
 
 Usage Examples
 --------------
